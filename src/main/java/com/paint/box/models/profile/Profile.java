@@ -3,8 +3,14 @@ package com.paint.box.models.profile;
 import com.paint.box.models.auth.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,22 +22,10 @@ public class Profile {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnore
     private User user;
-    public Profile() {
-    }
 
-    public Profile(Long id, String fname, String lname) {
-        this.id = id;
+    public Profile(String fname, String lname) {
         this.fname = fname;
         this.lname = lname;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getFname() {
@@ -49,4 +43,5 @@ public class Profile {
     public void setLname(String lname) {
         this.lname = lname;
     }
+
 }
