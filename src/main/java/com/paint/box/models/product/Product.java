@@ -1,26 +1,31 @@
-package com.paint.box.models;
+package com.paint.box.models.product;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "products")
 @Inheritance(strategy = InheritanceType.JOINED)
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String department;
     private int qtyOnHand;
     private double price;
-    private double msrp;
+
+    public Product() {
+    }
+
+    public Product(String name, String department, int qtyOnHand, double price) {
+        this.name = name;
+        this.department = department;
+        this.qtyOnHand = qtyOnHand;
+        this.price = price;
+    }
+
 
     public Long getId() {
         return id;
@@ -54,19 +59,11 @@ public class Product {
         this.qtyOnHand = qtyOnHand;
     }
 
-    public double getPrice() {
-        return price;
+    public BigDecimal getPrice() {
+        return BigDecimal.valueOf(price);
     }
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public double getMsrp() {
-        return msrp;
-    }
-
-    public void setMsrp(double msrp) {
-        this.msrp = msrp;
     }
 }

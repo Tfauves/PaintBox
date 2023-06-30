@@ -1,6 +1,6 @@
 package com.paint.box.controllers;
 
-import com.paint.box.models.Product;
+import com.paint.box.models.product.Product;
 import com.paint.box.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
