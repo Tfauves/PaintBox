@@ -1,5 +1,6 @@
 package com.paint.box.controllers;
 
+import com.paint.box.models.cart.Cart;
 import com.paint.box.models.profile.Profile;
 import com.paint.box.repositories.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class ProfileController {
 
     @PostMapping
     public Profile createProfile(@RequestBody Profile profile) {
+        Cart cart = new Cart(profile);
+        profile.setCart(cart);
         return profileRepository.save(profile);
     }
 

@@ -17,11 +17,10 @@ public class Profile {
     public Profile() {
     }
 
-    public Profile(String fname, String lname, User user, Cart cart) {
+    public Profile(String fname, String lname, User user) {
         this.fname = fname;
         this.lname = lname;
         this.user = user;
-        this.cart = cart;
     }
 
     @OneToOne
@@ -29,8 +28,7 @@ public class Profile {
     @JsonIgnore
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "cart_id")
+    @OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Cart cart;
 
     public Long getId() {

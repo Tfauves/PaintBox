@@ -20,7 +20,8 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "cart")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
     private Profile profile;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
