@@ -1,7 +1,7 @@
 package com.paint.box.controllers;
 
 import com.paint.box.models.cart.Cart;
-import com.paint.box.models.cart.CartService;
+import com.paint.box.services.CartService;
 import com.paint.box.models.product.Product;
 import com.paint.box.models.profile.Profile;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +25,8 @@ public class CartController {
     }
 
     @PutMapping("/{cartId}/add")
-    public ResponseEntity<Void> addProductToCart(
-            @PathVariable Long cartId,
-            @RequestBody Product product) {
-        cartService.addProductToCart(cartId, product);
+    public ResponseEntity<Void> addProductToCart(@PathVariable Long cartId, @RequestBody Long productId) {
+        cartService.addProductToCart(cartId, productId);
         return ResponseEntity.ok().build();
     }
 

@@ -1,10 +1,14 @@
 package com.paint.box.controllers;
 
+import com.paint.box.models.auth.User;
 import com.paint.box.models.cart.Cart;
 import com.paint.box.models.profile.Profile;
+import com.paint.box.repositories.CartRepository;
 import com.paint.box.repositories.ProfileRepository;
+import com.paint.box.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -14,14 +18,20 @@ import java.util.List;
 @RequestMapping("/api/profile")
 public class ProfileController {
     private final ProfileRepository profileRepository;
+    private final CartRepository cartRepository;
+
 
     @Autowired
-    public ProfileController(ProfileRepository profileRepository) {
+    public ProfileController(ProfileRepository profileRepository, CartRepository cartRepository) {
         this.profileRepository = profileRepository;
+        this.cartRepository = cartRepository;
     }
 
+    @Autowired
+    UserService userService;
+
     @GetMapping
-    List<Profile> findAllProfile(){
+    public @ResponseBody List<Profile> findAllProfile(){
         return profileRepository.findAll();
     }
 
@@ -31,11 +41,32 @@ public class ProfileController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/self")
+    public @ResponseBody Profile getSelf() {
+        User currentUser = userService.getCurrentUser();
+        if (currentUser == null) {
+            return null;
+        }
+
+        return profileRepository.findByUser_id(currentUser.getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
+
     @PostMapping
-    public Profile createProfile(@RequestBody Profile profile) {
-        Cart cart = new Cart(profile);
-        profile.setCart(cart);
-        return profileRepository.save(profile);
+    public ResponseEntity<Profile> createProfile(@RequestBody Profile newProfile) {
+        User currentUser = userService.getCurrentUser();
+        if (currentUser == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+
+        newProfile.setUser(currentUser);
+        profileRepository.save(newProfile); // Save the Profile entity first
+
+        Cart cart = new Cart(newProfile);
+        cartRepository.save(cart); // Save the Cart entity
+
+        newProfile.setCart(cart); // Set the Cart reference in the Profile entity
+
+        return new ResponseEntity<>(profileRepository.save(newProfile), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
