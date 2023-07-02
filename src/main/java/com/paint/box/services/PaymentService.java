@@ -1,4 +1,4 @@
-package com.paint.box.models;
+package com.paint.box.services;
 
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,6 @@
 package com.paint.box.models.profile;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import com.paint.box.models.auth.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.paint.box.models.cart.Cart;
@@ -14,14 +15,6 @@ public class Profile {
     private String fname;
     private String lname;
 
-    public Profile() {
-    }
-
-    public Profile(String fname, String lname, User user) {
-        this.fname = fname;
-        this.lname = lname;
-        this.user = user;
-    }
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
@@ -29,7 +22,17 @@ public class Profile {
     private User user;
 
     @OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIncludeProperties({"id"})
     private Cart cart;
+
+    public Profile() {
+    }
+
+    public Profile(User user, String fname, String lname) {
+        this.user = user;
+        this.fname = fname;
+        this.lname = lname;
+    }
 
     public Long getId() {
         return id;
