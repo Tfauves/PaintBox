@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// TODO: 7/5/2023 add mappings for update, delete, get by id, product 
 @RestController
 @RequestMapping("/api/product")
 public class ProductController {

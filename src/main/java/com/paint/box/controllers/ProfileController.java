@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 
 @RestController
@@ -59,12 +58,12 @@ public class ProfileController {
         }
 
         newProfile.setUser(currentUser);
-        profileRepository.save(newProfile); // Save the Profile entity first
+        profileRepository.save(newProfile);
 
         Cart cart = new Cart(newProfile);
-        cartRepository.save(cart); // Save the Cart entity
+        cartRepository.save(cart);
 
-        newProfile.setCart(cart); // Set the Cart reference in the Profile entity
+        newProfile.setCart(cart);
 
         return new ResponseEntity<>(profileRepository.save(newProfile), HttpStatus.CREATED);
     }
