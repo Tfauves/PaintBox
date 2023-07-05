@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.math.BigDecimal;
 
 @Service
@@ -37,6 +36,7 @@ public class CartService {
         cartRepository.save(cart);
     }
 
+    // TODO: 7/2/2023 remove by product id 
     public void removeProductFromCart(Long cartId, Product product) {
         Cart cart = getCartById(cartId);
         cart.removeProduct(product);
@@ -60,6 +60,7 @@ public class CartService {
         cartRepository.save(cart);
 
         // Perform payment processing
+        // reduce product qty on hand by amt purchased if order is processed
         paymentService.processPayment(cart.calculateTotal());
     }
 

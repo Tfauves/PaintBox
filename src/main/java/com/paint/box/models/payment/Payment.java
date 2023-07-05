@@ -1,4 +1,4 @@
-package com.paint.box.models.profile;
+package com.paint.box.models.payment;
 
 import java.math.BigDecimal;
 

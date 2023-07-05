@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: 7/5/2023 needs a display cart total field  
 @Entity
 public class Cart {
     @Id
