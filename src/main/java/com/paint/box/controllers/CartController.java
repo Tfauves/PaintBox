@@ -23,18 +23,17 @@ public class CartController {
     private final CartService cartService;
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
+    private final UserService userService;
+    private final ProfileRepository profileRepository;
 
     @Autowired
-    public CartController(CartService cartService, CartRepository cartRepository, ProductRepository productRepository) {
+    public CartController(CartService cartService, CartRepository cartRepository, ProductRepository productRepository, UserService userService, ProfileRepository profileRepository) {
         this.cartService = cartService;
         this.cartRepository = cartRepository;
         this.productRepository = productRepository;
+        this.userService = userService;
+        this.profileRepository = profileRepository;
     }
-
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private ProfileRepository profileRepository;
 
     @PostMapping
     public ResponseEntity<Cart> createCart(@RequestBody Profile profile) {
@@ -48,15 +47,12 @@ public class CartController {
         if (currentUser == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
-
         Profile userProfile = profileRepository.findByUser_id(currentUser.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
         Product product = productRepository.getReferenceById(proId);
-
+        cartService.addProductToCart(userProfile.getCart().getId(), proId);
         userProfile.getCart().addProduct(product);
-
-        cartRepository.save(userProfile.getCart());
-        profileRepository.save(userProfile);
 
         return ResponseEntity.ok().build();
     }

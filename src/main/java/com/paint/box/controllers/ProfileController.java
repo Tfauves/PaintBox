@@ -18,16 +18,15 @@ import java.util.List;
 public class ProfileController {
     private final ProfileRepository profileRepository;
     private final CartRepository cartRepository;
+    private final UserService userService;
 
 
     @Autowired
-    public ProfileController(ProfileRepository profileRepository, CartRepository cartRepository) {
+    public ProfileController(ProfileRepository profileRepository, CartRepository cartRepository, UserService userService) {
         this.profileRepository = profileRepository;
         this.cartRepository = cartRepository;
+        this.userService = userService;
     }
-
-    @Autowired
-    UserService userService;
 
     @GetMapping
     public @ResponseBody List<Profile> findAllProfile(){

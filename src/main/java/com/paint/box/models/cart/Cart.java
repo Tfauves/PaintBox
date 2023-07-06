@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: 7/5/2023 needs a display cart total field  
 @Entity
 public class Cart {
     @Id
@@ -24,6 +23,7 @@ public class Cart {
 
     private boolean checkedOut;
     private LocalDateTime checkoutDateTime;
+    private BigDecimal cartTotal;
 
     public Cart() {
     }
@@ -31,6 +31,7 @@ public class Cart {
     public Cart(Profile profile) {
         this.profile = profile;
         this.cartItems = new ArrayList<>();
+        this.cartTotal = BigDecimal.ZERO;
     }
 
     public void addProduct(Product product) {
@@ -104,6 +105,14 @@ public class Cart {
 
     public void setCheckoutDateTime(LocalDateTime checkoutDateTime) {
         this.checkoutDateTime = checkoutDateTime;
+    }
+
+    public BigDecimal getCartTotal() {
+        return cartTotal;
+    }
+
+    public void setCartTotal(BigDecimal cartTotal) {
+        this.cartTotal = cartTotal;
     }
 }
 

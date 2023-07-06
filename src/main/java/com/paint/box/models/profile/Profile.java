@@ -22,7 +22,7 @@ public class Profile {
     private User user;
 
     @OneToOne(mappedBy = "profile", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIncludeProperties({"id", "cartItems"})
+    @JsonIncludeProperties({"id", "cartItems", "cartTotal"})
     private Cart cart;
 
     public Profile() {

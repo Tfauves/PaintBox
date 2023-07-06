@@ -29,9 +29,9 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
-    public void addProductToCart(Long cartId, Long productId) {
+    public void addProductToCart(Long cartId, Long proId) {
+        Product product = productRepository.getReferenceById(proId);
         Cart cart = getCartById(cartId);
-        Product product = productRepository.getReferenceById(productId);
         cart.addProduct(product);
         cartRepository.save(cart);
     }
