@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import java.math.BigDecimal;
 
-// TODO: 7/5/2023 clean up add product to cart logic and move to cart service. 
 @RestController
 @RequestMapping("/api/cart")
 public class CartController {
@@ -41,8 +40,8 @@ public class CartController {
         return ResponseEntity.ok(cart);
     }
 
-    @PutMapping("/add/{proId}")
-    public ResponseEntity<Void> addProductToCart(@PathVariable Long proId) {
+    @PutMapping("/add/{productId}")
+    public ResponseEntity<Void> addProductToCart(@PathVariable Long productId) {
         User currentUser = userService.getCurrentUser();
         if (currentUser == null) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -50,12 +49,35 @@ public class CartController {
         Profile userProfile = profileRepository.findByUser_id(currentUser.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        Product product = productRepository.getReferenceById(proId);
-        cartService.addProductToCart(userProfile.getCart().getId(), proId);
+        Product product = productRepository.getReferenceById(productId);
+        cartService.addProductToCart(userProfile.getCart().getId(), productId);
         userProfile.getCart().addProduct(product);
 
         return ResponseEntity.ok().build();
     }
+
+//    @PutMapping("/increase/{productId}")
+//    public ResponseEntity<Void> increaseProductQuantity(@PathVariable Long productId) {
+//        User currentUser = userService.getCurrentUser();
+//        if (currentUser == null) {
+//            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+//        }
+//        Profile userProfile = profileRepository.findByUser_id(currentUser.getId())
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+//
+//        Product product = productRepository.getReferenceById(productId);
+//
+//        cartService.increaseProductQuantity(userProfile.getCart().getId(), productId);
+//        return ResponseEntity.ok().build();
+//    }
+//
+//    @PutMapping("/{cartId}/decrease/{productId}")
+//    public ResponseEntity<Void> decreaseProductQuantity(
+//            @PathVariable Long cartId,
+//            @PathVariable Long productId) {
+//        cartService.decreaseProductQuantity(cartId, productId);
+//        return ResponseEntity.ok().build();
+//    }
 
     // TODO: 7/2/2023 refactor to remove item by item id
     @PutMapping("/{cartId}/remove")
