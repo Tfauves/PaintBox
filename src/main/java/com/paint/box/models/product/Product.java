@@ -13,16 +13,18 @@ public class Product {
     private Long id;
     private String name;
     private String department;
-    private int qtyOnHand;
+    private int inCartQty;
+    private int inventoryQty;
     private double price;
 
     public Product() {
     }
 
-    public Product(String name, String department, int qtyOnHand, double price) {
+    public Product(String name, String department,Integer inCartQty, Integer inventoryQty, double price) {
         this.name = name;
         this.department = department;
-        this.qtyOnHand = qtyOnHand;
+        this.inCartQty = inCartQty;
+        this.inventoryQty = inventoryQty;
         this.price = price;
     }
 
@@ -51,12 +53,12 @@ public class Product {
         this.department = department;
     }
 
-    public int getQtyOnHand() {
-        return qtyOnHand;
+    public int getInventoryQty() {
+        return inventoryQty;
     }
 
-    public void setQtyOnHand(int qtyOnHand) {
-        this.qtyOnHand = qtyOnHand;
+    public void setInventoryQty(int inventoryQty) {
+        this.inventoryQty = inventoryQty;
     }
 
     public BigDecimal getPrice() {
@@ -65,5 +67,13 @@ public class Product {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public int getInCartQty() {
+        return inCartQty;
+    }
+
+    public void setInCartQty(int inCartQty) {
+        this.inCartQty = inCartQty;
     }
 }

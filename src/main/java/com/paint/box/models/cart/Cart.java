@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: 7/11/2023 in cart qty of product increase/decrease/remove 
+// TODO: 7/11/2023 refactor inventory prob need new class
+// TODO: 7/11/2023 cart total
 @Entity
 public class Cart {
     @Id
@@ -38,6 +41,19 @@ public class Cart {
         cartItems.add(product);
     }
 
+//    public void increaseProductQuantity(Product product) {
+//        product.setInventoryQty(product.getInventoryQty() + 1);
+//        cartTotal = calculateTotal();
+//    }
+//
+//    // Add a new method to decrease the quantity of a product in the cart
+//    public void decreaseProductQuantity(Product product) {
+//        if (product.getInventoryQty() > 0) {
+//            product.setInventoryQty(product.getInventoryQty() - 1);
+//            cartTotal = calculateTotal();
+//        }
+//    }
+
     public void removeProduct(Product product) {
         cartItems.remove(product);
     }
@@ -49,7 +65,7 @@ public class Cart {
     public BigDecimal calculateTotal() {
         BigDecimal total = BigDecimal.ZERO;
         for (Product product : cartItems) {
-            BigDecimal itemTotal = product.getPrice().multiply(BigDecimal.valueOf(product.getQtyOnHand()));
+            BigDecimal itemTotal = product.getPrice().multiply(BigDecimal.valueOf(product.getInventoryQty()));
             total = total.add(itemTotal);
         }
         return total;
