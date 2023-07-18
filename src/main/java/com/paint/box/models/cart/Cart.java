@@ -8,9 +8,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: 7/11/2023 in cart qty of product increase/decrease/remove 
+// TODO: 7/11/2023 in cart qty of product decrease/remove 
 // TODO: 7/11/2023 refactor inventory prob need new class
-// TODO: 7/11/2023 cart total
+// TODO: 7/18/2023 inventory decrement when item is added to the cart and increment when removed. 
+// TODO: 7/18/2023 cart total is working but needs testing after db artifact dump. 
 @Entity
 public class Cart {
     @Id
@@ -38,13 +39,19 @@ public class Cart {
     }
 
     public void addProduct(Product product) {
-        cartItems.add(product);
+
+        if (!cartItems.contains(product)) {
+            cartItems.add(product);
+            increaseProductQuantity(product);
+        } else {
+            increaseProductQuantity(product);
+        }
     }
 
-//    public void increaseProductQuantity(Product product) {
-//        product.setInventoryQty(product.getInventoryQty() + 1);
-//        cartTotal = calculateTotal();
-//    }
+    public void increaseProductQuantity(Product product) {
+        product.setInCartQty(product.getInCartQty() + 1);
+        cartTotal = calculateTotal();
+    }
 //
 //    // Add a new method to decrease the quantity of a product in the cart
 //    public void decreaseProductQuantity(Product product) {
@@ -65,7 +72,7 @@ public class Cart {
     public BigDecimal calculateTotal() {
         BigDecimal total = BigDecimal.ZERO;
         for (Product product : cartItems) {
-            BigDecimal itemTotal = product.getPrice().multiply(BigDecimal.valueOf(product.getInventoryQty()));
+            BigDecimal itemTotal = product.getPrice().multiply(BigDecimal.valueOf(product.getInCartQty()));
             total = total.add(itemTotal);
         }
         return total;
