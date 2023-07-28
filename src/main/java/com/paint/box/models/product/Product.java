@@ -3,7 +3,7 @@ package com.paint.box.models.product;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 
-// TODO: 7/5/2023 create department entity 
+// TODO: 7/28/2023 inventory should be entity 
 @Entity
 @Table(name = "products")
 @Inheritance(strategy = InheritanceType.JOINED)
