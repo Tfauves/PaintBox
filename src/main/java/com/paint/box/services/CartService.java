@@ -33,6 +33,7 @@ public class CartService {
         Product product = productRepository.getReferenceById(proId);
         Cart cart = getCartById(cartId);
         cart.addProduct(product);
+        product.setInventoryQty(product.getInventoryQty() -1);
         cartRepository.save(cart);
     }
 

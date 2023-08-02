@@ -3,7 +3,6 @@ package com.paint.box.models.product;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 
-// TODO: 7/28/2023 inventory should be entity 
 @Entity
 @Table(name = "products")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -15,12 +14,12 @@ public class Product {
     private String department;
     private int inCartQty;
     private int inventoryQty;
-    private double price;
+    private BigDecimal price;
 
     public Product() {
     }
 
-    public Product(String name, String department,Integer inCartQty, Integer inventoryQty, double price) {
+    public Product(String name, String department,Integer inCartQty, Integer inventoryQty, BigDecimal price) {
         this.name = name;
         this.department = department;
         this.inCartQty = inCartQty;
@@ -62,10 +61,10 @@ public class Product {
     }
 
     public BigDecimal getPrice() {
-        return BigDecimal.valueOf(price);
+        return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
