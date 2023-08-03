@@ -56,28 +56,33 @@ public class CartController {
         return ResponseEntity.ok().build();
     }
 
-//    @PutMapping("/increase/{productId}")
-//    public ResponseEntity<Void> increaseProductQuantity(@PathVariable Long productId) {
-//        User currentUser = userService.getCurrentUser();
-//        if (currentUser == null) {
-//            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-//        }
-//        Profile userProfile = profileRepository.findByUser_id(currentUser.getId())
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-//
-//        Product product = productRepository.getReferenceById(productId);
-//
-//        cartService.increaseProductQuantity(userProfile.getCart().getId(), productId);
-//        return ResponseEntity.ok().build();
-//    }
-//
-//    @PutMapping("/{cartId}/decrease/{productId}")
-//    public ResponseEntity<Void> decreaseProductQuantity(
-//            @PathVariable Long cartId,
-//            @PathVariable Long productId) {
-//        cartService.decreaseProductQuantity(cartId, productId);
-//        return ResponseEntity.ok().build();
-//    }
+    @PutMapping("/increase/{productId}")
+    public ResponseEntity<Void> increaseProductQuantity(@PathVariable Long productId) {
+        User currentUser = userService.getCurrentUser();
+        if (currentUser == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        Profile userProfile = profileRepository.findByUser_id(currentUser.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        Product product = productRepository.getReferenceById(productId);
+
+        cartService.increaseProductQuantity(userProfile.getCart().getId(), productId);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/decrease/{productId}")
+    public ResponseEntity<Void> decreaseProductQuantity(@PathVariable Long productId) {
+        User currentUser = userService.getCurrentUser();
+        if (currentUser == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        Profile userProfile = profileRepository.findByUser_id(currentUser.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        cartService.decreaseProductQuantity(userProfile.getCart().getId(), productId);
+        return ResponseEntity.ok().build();
+    }
 
     // TODO: 7/2/2023 refactor to remove item by item id
     @PutMapping("/{cartId}/remove")

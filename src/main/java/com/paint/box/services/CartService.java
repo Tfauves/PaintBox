@@ -38,22 +38,23 @@ public class CartService {
     }
 
 
-//    public void increaseProductQuantity(Long cartId, Long productId) {
-//        Cart cart = getCartById(cartId);
-//        Product product = productRepository.getReferenceById(productId);
-//        cart.increaseProductQuantity(product);
-//        cartRepository.save(cart);
-//    }
-//
-//
-//    public void decreaseProductQuantity(Long cartId, Long productId) {
-//        Cart cart = getCartById(cartId);
-//        Product product = productRepository.getReferenceById(productId);
-//        cart.decreaseProductQuantity(product);
-//        cartRepository.save(cart);
-//    }
+    public void increaseProductQuantity(Long cartId, Long productId) {
+        Cart cart = getCartById(cartId);
+        Product product = productRepository.getReferenceById(productId);
+        cart.increaseProductQuantity(product);
+        product.setInventoryQty(product.getInventoryQty() -1);
+        cartRepository.save(cart);
+    }
 
-    // TODO: 7/2/2023 remove by product id
+
+    public void decreaseProductQuantity(Long cartId, Long productId) {
+        Cart cart = getCartById(cartId);
+        Product product = productRepository.getReferenceById(productId);
+        cart.decreaseProductQuantity(product);
+        cartRepository.save(cart);
+    }
+
+    // TODO: 8/3/2023 remove by product id 
     public void removeProductFromCart(Long cartId, Product product) {
         Cart cart = getCartById(cartId);
         cart.removeProduct(product);

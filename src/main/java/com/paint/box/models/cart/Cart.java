@@ -49,17 +49,17 @@ public class Cart {
     }
 
     public void increaseProductQuantity(Product product) {
-        product.setInCartQty(product.getInCartQty() + 1);
+        product.setInCartQty(product.getInCartQty() +1);
         cartTotal = calculateTotal();
     }
-//
-//    // Add a new method to decrease the quantity of a product in the cart
-//    public void decreaseProductQuantity(Product product) {
-//        if (product.getInventoryQty() > 0) {
-//            product.setInventoryQty(product.getInventoryQty() - 1);
-//            cartTotal = calculateTotal();
-//        }
-//    }
+
+    public void decreaseProductQuantity(Product product) {
+        if (product.getInventoryQty() > 0) {
+            product.setInCartQty(product.getInCartQty() -1);
+            product.setInventoryQty(product.getInventoryQty() +1);
+            cartTotal = calculateTotal();
+        }
+    }
 
     public void removeProduct(Product product) {
         cartItems.remove(product);
