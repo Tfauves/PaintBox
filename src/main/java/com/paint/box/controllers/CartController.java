@@ -84,12 +84,16 @@ public class CartController {
         return ResponseEntity.ok().build();
     }
 
-    // TODO: 7/2/2023 refactor to remove item by item id
-    @PutMapping("/{cartId}/remove")
-    public ResponseEntity<Void> removeProductFromCart(
-            @PathVariable Long cartId,
-            @RequestBody Product product) {
-        cartService.removeProductFromCart(cartId, product);
+    @PutMapping("/remove/{productId}")
+    public ResponseEntity<Void> removeProductFromCart(@PathVariable Long productId) {
+        User currentUser = userService.getCurrentUser();
+        if (currentUser == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        Profile userProfile = profileRepository.findByUser_id(currentUser.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        cartService.removeProductFromCart(userProfile.getCart().getId(), productId);
         return ResponseEntity.ok().build();
     }
 

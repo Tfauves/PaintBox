@@ -54,15 +54,21 @@ public class Cart {
     }
 
     public void decreaseProductQuantity(Product product) {
-        if (product.getInventoryQty() > 0) {
+        if (product.getInCartQty() > 0) {
             product.setInCartQty(product.getInCartQty() -1);
             product.setInventoryQty(product.getInventoryQty() +1);
             cartTotal = calculateTotal();
         }
+        if (product.getInCartQty() == 0) {
+            removeProduct(product);
+        }
+
     }
 
+    // TODO: 8/4/2023 removing product from repository.
     public void removeProduct(Product product) {
         cartItems.remove(product);
+        cartTotal = calculateTotal();
     }
 
     public void clearCart() {

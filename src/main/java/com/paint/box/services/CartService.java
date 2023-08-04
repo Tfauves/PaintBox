@@ -54,9 +54,10 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-    // TODO: 8/3/2023 remove by product id 
-    public void removeProductFromCart(Long cartId, Product product) {
+
+    public void removeProductFromCart(Long cartId, Long productId) {
         Cart cart = getCartById(cartId);
+        Product product = productRepository.getReferenceById(productId);
         cart.removeProduct(product);
         cartRepository.save(cart);
     }
