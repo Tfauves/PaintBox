@@ -8,10 +8,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: 7/11/2023 in cart qty of product decrease/remove 
-// TODO: 7/11/2023 refactor inventory prob need new class
-// TODO: 7/18/2023 inventory decrement when item is added to the cart and increment when removed. 
-// TODO: 7/18/2023 cart total is working but needs testing after db artifact dump. 
 @Entity
 public class Cart {
     @Id
@@ -22,7 +18,7 @@ public class Cart {
     @JoinColumn(name = "profile_id")
     private Profile profile;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Product> cartItems;
 
     private boolean checkedOut;
@@ -39,7 +35,6 @@ public class Cart {
     }
 
     public void addProduct(Product product) {
-
         if (!cartItems.contains(product)) {
             cartItems.add(product);
             increaseProductQuantity(product);

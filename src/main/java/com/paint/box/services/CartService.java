@@ -29,8 +29,8 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
-    public void addProductToCart(Long cartId, Long proId) {
-        Product product = productRepository.getReferenceById(proId);
+    public void addProductToCart(Long cartId, Long profileId) {
+        Product product = productRepository.getReferenceById(profileId);
         Cart cart = getCartById(cartId);
         cart.addProduct(product);
         product.setInventoryQty(product.getInventoryQty() -1);
@@ -58,7 +58,10 @@ public class CartService {
     public void removeProductFromCart(Long cartId, Long productId) {
         Cart cart = getCartById(cartId);
         Product product = productRepository.getReferenceById(productId);
+        product.setInventoryQty(product.getInventoryQty() + product.getInCartQty());
+        product.setInCartQty(0);
         cart.removeProduct(product);
+
         cartRepository.save(cart);
     }
 

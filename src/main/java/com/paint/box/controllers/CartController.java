@@ -49,10 +49,7 @@ public class CartController {
         Profile userProfile = profileRepository.findByUser_id(currentUser.getId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        Product product = productRepository.getReferenceById(productId);
         cartService.addProductToCart(userProfile.getCart().getId(), productId);
-        userProfile.getCart().addProduct(product);
-
         return ResponseEntity.ok().build();
     }
 
