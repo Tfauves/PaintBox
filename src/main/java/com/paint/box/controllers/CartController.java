@@ -64,7 +64,7 @@ public class CartController {
 
         Product product = productRepository.getReferenceById(productId);
 
-        cartService.increaseProductQuantity(userProfile.getCart().getId(), productId);
+        cartService.increaseProductQuantity(userProfile.getCart().getId(), product.getId());
         return ResponseEntity.ok().build();
     }
 
@@ -94,9 +94,15 @@ public class CartController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{cartId}/clear")
-    public ResponseEntity<Void> clearCart(@PathVariable Long cartId) {
-        cartService.clearCart(cartId);
+    @DeleteMapping("/clear")
+    public ResponseEntity<Void> clearCart() {
+        User currentUser = userService.getCurrentUser();
+        if (currentUser == null) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
+        Profile userProfile = profileRepository.findByUser_id(currentUser.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        cartService.clearCart(userProfile.getCart().getId());
         return ResponseEntity.ok().build();
     }
 

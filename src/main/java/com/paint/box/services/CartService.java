@@ -67,6 +67,11 @@ public class CartService {
 
     public void clearCart(Long cartId) {
         Cart cart = getCartById(cartId);
+        for (Product item : cart.getCartItems()) {
+            int inCartQty = item.getInCartQty();
+            item.setInCartQty(0);
+            item.setInventoryQty(item.getInventoryQty() + inCartQty);
+        }
         cart.clearCart();
         cartRepository.save(cart);
     }

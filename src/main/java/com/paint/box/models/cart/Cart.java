@@ -60,7 +60,6 @@ public class Cart {
 
     }
 
-    // TODO: 8/4/2023 removing product from repository.
     public void removeProduct(Product product) {
         cartItems.remove(product);
         cartTotal = calculateTotal();
@@ -68,6 +67,7 @@ public class Cart {
 
     public void clearCart() {
         cartItems.clear();
+        cartTotal = calculateTotal();
     }
 
     public BigDecimal calculateTotal() {
